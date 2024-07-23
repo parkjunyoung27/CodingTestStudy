@@ -25,7 +25,7 @@ public class P11003_최솟값찾기 {
 		for (int i = 0; i < N; i++) {
 			int now = Integer.parseInt(st.nextToken());
 			// 새로운 값이 들어올 때마다 정렬 대신 현재 수보다 큰 값을 덱에서 제거해 시간 복잡도를 줄임
-			while(!mydeque.isEmpty() && mydeque.getLast().value > now) {
+			while(!mydeque.isEmpty() && mydeque.getLast().value > now) { // 지금 값보다 마지막 인덱스값이 크면 제거
 				mydeque.removeFirst();
 			}
 			mydeque.addLast(new Node(now, i));

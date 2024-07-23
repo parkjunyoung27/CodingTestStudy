@@ -3,7 +3,7 @@ package chap03;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class Main {
+public class P1874_스택수열 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		
@@ -38,7 +38,7 @@ public class Main {
 					result = false;
 					break;
 				} else { // 값이 같은걸 뺴고, 그 이후 값이 같기 전까지 수열과 자연수가 같기전에 타는 곳
-					bf.append("-\n");
+					bf.append("ㅎㅇ-\n");
 				}
 				
 			}
@@ -46,5 +46,3 @@ public class Main {
 		if (result) System.out.println(bf.toString());
 	}
 }
-
-
