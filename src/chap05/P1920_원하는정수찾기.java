@@ -3,7 +3,7 @@ package chap05;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
+public class P1920_원하는정수찾기 {
 
 	public static void main(String[] args) {
 	
@@ -44,4 +44,5 @@ public class Main {
 			}
 		}
 	}
+	
 }
