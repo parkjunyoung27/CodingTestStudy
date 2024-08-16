@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class P1167_트리의지름 {
 	static boolean visited[];
 	static int[] distance;
-	static ArrayList<Edge>[] A;
+	static ArrayList<Edge2>[] A;
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -17,7 +17,7 @@ public class P1167_트리의지름 {
 		A = new ArrayList[N+1];
 		
 		for(int i = 1; i <= N; i++) {
-			A[i] = new ArrayList<Edge>();
+			A[i] = new ArrayList<Edge2>();
 		}
 		
 		for (int i = 0; i < N; i++) { // A 인접 리스트에 그래프 데이터 저장하기
@@ -27,7 +27,7 @@ public class P1167_트리의지름 {
 				if(E == -1)
 					break;
 				int V = sc.nextInt();
-				A[S].add(new Edge(E,V));
+				A[S].add(new Edge2(E,V));
 			}
 		}
 		
@@ -54,7 +54,7 @@ public class P1167_트리의지름 {
 		visited[index] = true;
 		while(!queue.isEmpty()) {
 			int now_node = queue.poll();
-			for (Edge i : A[now_node]) {
+			for (Edge2 i : A[now_node]) {
 				int e = i.e;
 				int v = i.value;
 				if (!visited[e]) {
