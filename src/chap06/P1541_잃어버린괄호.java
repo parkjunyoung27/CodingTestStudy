@@ -1,12 +1,9 @@
 package chap06;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.PriorityQueue;
 import java.util.Scanner;
 
-public class Main {
+public class P1541_잃어버린괄호 {
+	
 	static int answer = 0;
 	
 	public static void main(String[] args) {
