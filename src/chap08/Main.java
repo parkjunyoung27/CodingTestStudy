@@ -1,58 +1,86 @@
 package chap08;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
 public class Main {
-	public static int[] parent;
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int N = sc.nextInt();
-		int M = sc.nextInt();
+	
+	static int N, M;
+	static ArrayList<Node>[] list; // 인접리스트로 그래프 표현
+	static int[] dist; // 최단 거리 배열
+	static boolean[] visit; // 사용 노드인지 확인하는 배열 
+	
+	public static void main(String[] args) throws Exception{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out)); 
+		StringTokenizer st;
+		N = Integer.parseInt(br.readLine());
+		M = Integer.parseInt(br.readLine());
+		list = new ArrayList[N + 1];
+		dist = new int[N + 1];
+		visit = new boolean[N + 1];
 		
-		parent = new int[N+1];
-		
-		for (int i = 0; i <= N; i++) { // 대표 노드를 자기 자신으로 초기화하기
-			parent[i] = i;
+		Arrays.fill(dist, Integer.MAX_VALUE);
+		for(int i = 0; i <= N; i++) {
+			list[i] = new ArrayList<Node>();
 		}
 		
-		for (int i = 0; i < M; i++) {
-			int question = sc.nextInt();
-			int a = sc.nextInt();
-			int b = sc.nextInt();
-			if(question == 0) { // 집합 합치기
-				union(a, b);
-			} else { // 같은 집합의 원소인지 확인하기
-				if(checkSame(a,b)) {
-					System.out.println("YES");
-				} else {
-					System.out.println("NO");
+		for(int i = 0; i < M; i++) {
+			st = new StringTokenizer(br.readLine());
+			int start = Integer.parseInt(st.nextToken());
+			int end = Integer.parseInt(st.nextToken());
+			int weight = Integer.parseInt(st.nextToken());
+			list[start].add(new Node(end, weight));
+		}
+		
+		st = new StringTokenizer(br.readLine());
+		int startIndex = Integer.parseInt(st.nextToken());
+		int endIndex = Integer.parseInt(st.nextToken());
+		bw.write(dijkstra(startIndex, endIndex) + "\n");
+		
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+	
+	public static int dijkstra(int start, int end) { // 다익스트라 알고리즘
+		PriorityQueue<Node> pq = new PriorityQueue<Node>();
+		pq.offer(new Node(start, 0));
+		dist[start] = 0;
+		while(!pq.isEmpty()) {
+			Node nowNode = pq.poll();
+			int now = nowNode.targetNode;
+			if(!visit[now]) {
+				visit[now] = true;
+				for (Node n : list[now]) {
+					if(!visit[n.targetNode] && dist[n.targetNode] > dist[now] + n.value) {
+						dist[n.targetNode] = dist[now] + n.value;
+						pq.add(new Node(n.targetNode, dist[n.targetNode]));
+					}
 				}
 			}
 		}
+		return dist[end];
+		
 	}
 	
-	public static void union(int a, int b) { // union 연산 : 대표 노드끼리 연결하기
-		a = find(a);
-		b = find(b);
-		if(a != b) {
-			parent[b] = a;
-		}
+}
+
+class Node implements Comparable<Node>{
+	int targetNode;
+	int value;
+	Node(int targetNode, int value){
+		this.targetNode = targetNode;
+		this.value = value;
 	}
-	
-	public static int find(int a) {
-		if(a == parent[a])
-			return a;
-		else
-			return parent[a] = find(parent[a]); // 재귀 함수의 형태로 구현 -> 경로 압축 부분
+	@Override
+	public int compareTo(Node o) {
+		return value - o.value;
 	}
-	
-	public static boolean checkSame(int a, int b) { // 두 원소가 같은 집합인지 확인하기
-		a = find(a);
-		b = find(b);
-		if (a == b) {
-			return true;
-		} 
-		return false;
-	}
-	
 }
